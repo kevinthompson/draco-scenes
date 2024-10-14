@@ -78,7 +78,11 @@ module Draco
         raise Draco::Scenes::MultipleSceneDefinitionsError if maybe_class && block
 
         @default_scene ||= name
-        @scene_definitions[name] = maybe_class || Class.new(Draco::World, &block)
+        @scene_definitions[name] = maybe_class || begin
+          Class.new(Draco::World).tap do |new_class|
+            new_class.class_eval(&block)
+          end
+        end
       end
 
       def default_scene(name)
