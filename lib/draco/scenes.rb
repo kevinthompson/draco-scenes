@@ -43,7 +43,7 @@ module Draco
       end
 
       def filter(*components)
-        super.merge(@current_scene.filter(*components))
+        Array(super) + Array(@current_scene.filter(*components))
       end
 
       def scenes
